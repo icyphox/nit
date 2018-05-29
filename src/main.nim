@@ -24,7 +24,16 @@ proc hash_object(data: string, obj_type: string, is_write: bool = True): string 
     writeFile(path, zlib.compress(full_data))
   return sha1
 
+proc find_object(sha1_prefix: string): string =
+  if len(sha1_prefix) < :
+    raise ValueError("hash prefix must be 2 or more characters")
+  var obj_dir = ospaths.joinPath(".git", "objects", sha1_prefix[:2])
+  var rest = sha1_prefix[2:]
+  var objects = [name for name in os.]
+
+
 
 proc main() =
+
 
 main()
