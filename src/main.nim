@@ -2,7 +2,7 @@ import os
 import ospaths
 import strformat
 import std/sha1
-# import zlib
+import zlib
 
 
 proc init(repo: string) =
@@ -12,18 +12,18 @@ proc init(repo: string) =
   writeFile(ospaths.joinPath(repo, ".git", "HEAD"), "ref: refs/heads/master")
   echo fmt"initialized empty repository: {repo}"
 
-proc hash_object(data: string, obj_type: string, is_write: bool = True): string =
+proc hash_object(data: string, obj_type: string, is_write: bool = true): string =
   # might have to encode it here
   var
     header = fmt"{obj_type} {len(data)}"
-    full_data = header + '\x00' + data
+    full_data = header & "\x00" & data
     sha = sha1.secureHash(full_data)
-    sha_str = $sha1
+    sha_str = $(sha)
   if is_write:
-    var path = ospaths.joinPath(".git", "objects", sha_str[0 .. 1], sha_str[2 .. sha.high])
-    os.existsOrCreateDir(path)
+    var path = ospaths.joinPath(".git", "objects", sha_str[0 .. 1], sha_str[2 .. sha_str.high])
+    discard os.existsOrCreateDir(path)
     writeFile(path, zlib.compress(full_data))
-  return sha1
+  return sha_str
 
 proc find_object(sha1_prefix: string): string =
   if len(sha1_prefix) < :
@@ -36,6 +36,6 @@ proc find_object(sha1_prefix: string): string =
 
 
 proc main() =
-  hash_object("test", "teststring")
+  echo hash_object("test", "teststring")
 
 main()
