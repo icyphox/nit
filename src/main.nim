@@ -1,8 +1,8 @@
 import os
 import ospaths
 import strformat
-import sha1
-import zlib
+import std/sha1
+# import zlib
 
 
 proc init(repo: string) =
@@ -17,9 +17,10 @@ proc hash_object(data: string, obj_type: string, is_write: bool = True): string 
   var
     header = fmt"{obj_type} {len(data)}"
     full_data = header + '\x00' + data
-    sha1 = sha1.secureHash(full_data)
+    sha = sha1.secureHash(full_data)
+    sha_str = $sha1
   if is_write:
-    var path = ospaths.joinPath(".git", "objects", sha1[:2], sha1[2:])
+    var path = ospaths.joinPath(".git", "objects", sha_str[0 .. 1], sha_str[2 .. sha.high])
     os.existsOrCreateDir(path)
     writeFile(path, zlib.compress(full_data))
   return sha1
@@ -27,13 +28,14 @@ proc hash_object(data: string, obj_type: string, is_write: bool = True): string 
 proc find_object(sha1_prefix: string): string =
   if len(sha1_prefix) < :
     raise ValueError("hash prefix must be 2 or more characters")
-  var obj_dir = ospaths.joinPath(".git", "objects", sha1_prefix[:2])
-  var rest = sha1_prefix[2:]
-  var objects = [name for name in os.]
+  var
+    obj_dir = ospaths.joinPath(".git", "objects", sha1_prefix[0 .. 1])
+    rest = sha1_prefix[2 .. sha1_prefix.high]
+#     objects = [name for name in os.]
 
 
 
 proc main() =
-
+  hash_object("test", "teststring")
 
 main()
