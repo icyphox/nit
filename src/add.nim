@@ -14,7 +14,7 @@ let path = paramStr(1)
 
 if path == "":
   echo "no path specified"
-  quit
+  quit(1)
 
 var
   file_contents = readFile(path)

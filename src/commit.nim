@@ -2,6 +2,8 @@
 
 import std/sha1
 import times
+import ospaths
+import os
 
 const
   GIT_DIR = ".git"
@@ -12,5 +14,13 @@ const
   # body
   """
 
-proc index_files() =
+proc index_files(): string =
+  var file = open(INDEX_PATH, fmRead)
+  var line = file.readLine()
+  return $line
+
+proc index_tree() =
+  
+
+  
 
