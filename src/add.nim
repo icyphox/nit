@@ -20,7 +20,7 @@ var
   file_contents = readFile(path)
   sha = secureHash(file_contents)
   sha_str = $sha
-  blob = deflate(file_contents)
+  blob = compress(file_contents)
   indiv_object = joinPath(OBJECTS_DIR, sha_str[0 .. 1])
   blob_path = joinPath(indiv_object, sha_str[2 .. sha_str.high])
   index_path = open(INDEX_PATH, fmAppend)
