@@ -1,20 +1,25 @@
 # add.nim: adds files to the staging area
-
-import zip/zlib
-import std/sha1
-import ospaths
-import os
+import
+  zip/zlib,
+  std/sha1,
+  ospaths,
+  os,
+  strformat
 
 const
   GIT_DIR = ".git"
   OBJECTS_DIR = joinPath(GIT_DIR, "objects")
   INDEX_PATH = joinPath(GIT_DIR, "index")
 
-let path = paramStr(1)
+let args = commandLineParams()
+var path: string
 
-if path == "":
-  echo "no path specified"
+try:
+  path = args[0]
+except IndexError:
+  echo "no path specified :v"
   quit(1)
+
 
 var
   file_contents = readFile(path)
