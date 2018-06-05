@@ -1,9 +1,10 @@
 # commit.nim: commits whatever's in the staging area
 
-import std/sha1
-import times
-import ospaths
-import os
+import
+  std/sha1,
+  times,
+  ospaths,
+  os
 
 const
   GIT_DIR = ".git"
@@ -21,6 +22,3 @@ proc index_files(): string =
 
 proc index_tree() =
   
-
-  
-
