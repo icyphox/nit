@@ -1,8 +1,8 @@
 # init.nim: initializes a git repository
-
-import os
-import ospaths
-import strformat
+import
+  os,
+  ospaths,
+  strformat
 
 const
   GIT_DIR = ".git"
