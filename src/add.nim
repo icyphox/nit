@@ -1,10 +1,12 @@
 # add.nim: adds files to the staging area
+
 import
   zip/zlib,
   std/sha1,
   ospaths,
   os,
-  strformat
+  strformat,
+  unicode
 
 const
   GIT_DIR = ".git"
@@ -25,12 +27,13 @@ var
   file_contents = readFile(path)
   sha = secureHash(file_contents)
   sha_str = $sha
+  sha_lower = sha_str.toLower()
   blob = compress(file_contents)
-  indiv_object = joinPath(OBJECTS_DIR, sha_str[0 .. 1])
-  blob_path = joinPath(indiv_object, sha_str[2 .. sha_str.high])
+  indiv_object = joinPath(OBJECTS_DIR, sha_lower[0 .. 1])
+  blob_path = joinPath(indiv_object, sha_lower[2 .. sha_lower.high])
   index_path = open(INDEX_PATH, fmAppend)
 
 createDir(indiv_object)
 writeFile(blob_path, blob)
-index_path.writeLine(fmt"{sha_str} {path}")
+index_path.writeLine(fmt"{sha_lower} {path}")
 
