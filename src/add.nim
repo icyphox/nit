@@ -32,5 +32,5 @@ var
 
 createDir(indiv_object)
 writeFile(blob_path, blob)
-index_path.write(fmt"{sha_str} {path}")
+index_path.writeLine(fmt"{sha_str} {path}")
 
