@@ -4,7 +4,7 @@
 It currently supports the following Git commands:
 
 - `init` 
-- `add` (WIP)
+- `add` 
 - `commit` (WIP)
 
 
